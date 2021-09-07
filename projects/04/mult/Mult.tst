@@ -72,3 +72,58 @@ repeat 210 {
 set RAM[0] 6,   // Restore arguments in case program used them as loop counter
 set RAM[1] 7,
 output;
+
+set PC 0,
+set RAM[0] 6,   // Set test arguments
+set RAM[1] 9,
+set RAM[2] -1;  // Ensure that program initialized product to 0
+repeat 210 {
+  ticktock;
+}
+set RAM[0] 6,   // Restore arguments in case program used them as loop counter
+set RAM[1] 9,
+output;
+
+set PC 0,
+set RAM[0] 9,   // Set test arguments
+set RAM[1] 6,
+set RAM[2] -1;  // Ensure that program initialized product to 0
+repeat 210 {
+  ticktock;
+}
+set RAM[0] 9,   // Restore arguments in case program used them as loop counter
+set RAM[1] 6,
+output;
+
+set PC 0,
+set RAM[0] 21,   // Set test arguments
+set RAM[1] 42,
+set RAM[2] -1;  // Ensure that program initialized product to 0
+repeat 1000 {
+  ticktock;
+}
+set RAM[0] 21,   // Restore arguments in case program used them as loop counter
+set RAM[1] 42,
+output;
+
+set PC 0,
+set RAM[0] 42,   // Set test arguments
+set RAM[1] 21,
+set RAM[2] -1;  // Ensure that program initialized product to 0
+repeat 1000 {
+  ticktock;
+}
+set RAM[0] 42,   // Restore arguments in case program used them as loop counter
+set RAM[1] 21,
+output;
+
+set PC 0,
+set RAM[0] 42,   // Set test arguments
+set RAM[1] 42,
+set RAM[2] -1;  // Ensure that program initialized product to 0
+repeat 1000 {
+  ticktock;
+}
+set RAM[0] 42,   // Restore arguments in case program used them as loop counter
+set RAM[1] 42,
+output;
