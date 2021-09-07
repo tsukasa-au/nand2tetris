@@ -15,70 +15,43 @@
 @R2
 M=0
 
-// Load R1 into a temporary (this is our counter that we will decrement)
+@mul_test
+M=1
 @R1
 D=M
-
-// Handle the case where R1 is not divisible by 8
-@8
-D=A-D
-@7
-D=D&A
-@PRE_LOOP
-D;JLE  // If R0 % 8 == 0; jump PRE_LOOP
-A=D
-D=D+A
-@MUL_UNROLL
-A=A+D
-D=0;JMP
-(MUL_UNROLL)
-@R0
-D=D+M
-@R0
-D=D+M
-@R0
-D=D+M
-@R0
-D=D+M
-@R0
-D=D+M
-@R0
-D=D+M
-@R0
-D=D+M
-@R0
-D=D+M
-
-@R2
+@shifted_r1
 M=D
-
-(PRE_LOOP)
-@R1
-D=M
-@7
-A=!A
-D=D&A
-@mul_remaining
-M=D
-@DONE
-D;JLE // if mul_remaining <= 0; jump DONE // No more iterations required
 
 (LOOP)
 
-// Perform one step: (R2 += R0)
+@mul_test
+D=M
 @R0
-AD=M    // D = R0
-AD=D+A  // D = 2*R0
-AD=D+A  // D = 4*R0
-AD=D+A  // D = 8*R0
+D=D&M
+@LOOP_AFTER_ADD
+D;JEQ  // This bit in R0 is a zero, so we don't need to add shifted_r1.
+@shifted_r1
+D=M
 @R2
-M=D+M  // R2 += 8*R0
-@8
-D=A
-@mul_remaining
-MD=M-D  // mul_remaining -= 4
+M=D+M
+(LOOP_AFTER_ADD)
+
+// Shift the value in R1 right by 1 bit
+@shifted_r1
+AD=M
+D=D+A
+@shifted_r1
+M=D
+
+// Shift the value in mul_test right by 1 bit
+@mul_test
+AD=M
+D=D+A
+@mul_test
+M=D
+
 @LOOP
-D;JGT  // If mul_remaining > 0; jump LOOP
+D;JNE  // If we have bits remaining
 
 @DONE
 (DONE)
